@@ -904,16 +904,28 @@ function _mobBlend(mesh,p,fade){
   var pos=Math.min(1,Math.max(0,p))*(sampled.length-1);
   var iA=Math.floor(pos),iB=Math.min(sampled.length-1,iA+1),t=pos-iA;
   var A=sampled[iA],B=sampled[iB];
-  /* NO BOX: the gradient lives on the ROOT (<html>) background with attachment:fixed, so it fills
-     the whole screen and bleeds into the safe areas behind the bars (infinite, no box — the only
-     layout that does this reliably on iOS). White at the very top, fading up to the gradient.
-     Smoothness comes from FINE quantisation (rebuild in small steps) so the colour flows. */
   var ca=_avgCol(A),cb=_avgCol(B);
   var f=Math.max(0,Math.min(1,fade));
+  /* SMOOTH (what you actually see): two fixed gradient layers crossfaded by OPACITY — GPU
+     composited, no per-frame image rebuild, so the colour flows continuously. The image on each
+     layer only changes at the 3 pair boundaries; opacity scrubs every frame. */
+  var layers=mesh.querySelectorAll('.mesh-g');
+  if(layers.length>=2){
+    layers[0].style.transition='none';layers[1].style.transition='none';
+    if(mesh._mbA!==iA){ layers[0].style.backgroundImage=_meshGrad(A,true); mesh._mbA=iA; }
+    if(mesh._mbB!==iB){ layers[1].style.backgroundImage=_meshGrad(B,true); mesh._mbB=iB; }
+    layers[0].style.opacity=String(1-t); layers[1].style.opacity=String(t);
+    mesh.style.backgroundColor='rgb('+Math.round(ca[0]*(1-t)+cb[0]*t)+','+Math.round(ca[1]*(1-t)+cb[1]*t)+','+Math.round(ca[2]*(1-t)+cb[2]*t)+')';
+    mesh.classList.add('on');
+    mesh.style.opacity=String(MOBILE_TINT*f);
+  }
+  /* NO BOX: the same gradient on the ROOT background fills the safe areas behind the bars (infinite).
+     The opaque mesh covers the content, so the root is only visible in those thin strips — its
+     coarse steps are invisible there. White at the very top → gradient as you scroll. */
   var cols=_lerpCols(A,B,t);
-  var br=Math.round(255*(1-f)+(ca[0]*(1-t)+cb[0]*t)*f),bgc=Math.round(255*(1-f)+(ca[1]*(1-t)+cb[1]*t)*f),bb=Math.round(255*(1-f)+(ca[2]*(1-t)+cb[2]*t)*f);
+  var hr=Math.round(255*(1-f)+(ca[0]*(1-t)+cb[0]*t)*f),hg=Math.round(255*(1-f)+(ca[1]*(1-t)+cb[1]*t)*f),hb=Math.round(255*(1-f)+(ca[2]*(1-t)+cb[2]*t)*f);
   var de=document.documentElement;
-  var key=iA+'_'+iB+'_'+Math.round(t*26)+'_'+Math.round(f*16);
+  var key=iA+'_'+iB+'_'+Math.round(t*8)+'_'+Math.round(f*8);
   if(de._mbKey!==key){
     de.style.backgroundImage=_meshGradA(cols,f);
     de.style.backgroundRepeat='no-repeat';
@@ -922,9 +934,8 @@ function _mobBlend(mesh,p,fade){
     de.style.backgroundPosition='center';
     de._mbKey=key;
   }
-  de.style.backgroundColor='rgb('+br+','+bgc+','+bb+')';
+  de.style.backgroundColor='rgb('+hr+','+hg+','+hb+')';
   document.body.style.backgroundColor='transparent';
-  mesh.style.opacity='0'; mesh.classList.remove('on');
 }
 /* interpolate two project gradients stop-by-stop (smooth colour drift in one gradient) */
 function _lerpCols(A,B,t){
