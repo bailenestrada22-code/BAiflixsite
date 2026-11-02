@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background-image: radial-gradient(135% 135% at 18% 20%, var(--mc0) 0%, rgba(255,255,255,0) 72%),radial-gradient(135% 135% at 82% 26%, var(--mc1) 0%, rgba(255,255,255,0) 72%),radial-gradient(140% 140% at 52% 82%, var(--mc2) 0%, rgba(255,255,255,0) 74%); background-repeat: no-repeat; background-size: cover; background-attachment: fixed; background-position: center center; background-color: var(--mcb); transition: --mc0 0.35s linear, --mc1 0.35s linear, --mc2 0.35s linear, --mcb 0.35s linear; --mc0: #ffffff; --mc1: #ffffff; --mc2: #ffffff; --mcb: #ffffff;"><head><meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
 <link rel="preconnect" href="https://player.vimeo.com" crossorigin="">
@@ -248,18 +248,11 @@ body.vplaying .sidebar{opacity:0;pointer-events:none;transition:opacity .45s eas
   /* photo viewer: white too, with dark controls */
   #pbox{background:#fff!important;}
   #pbox-close,#pbox-prev,#pbox-next{color:#111!important;}
-  /* project player carries THIS project's gradient itself (fixed, inset:0 → covers the whole
-     viewport incl. the iOS status-bar area), so no bar can ever appear at the top regardless of
-     the project's colours. Uses the same @property vars openVbox sets on :root. */
-  #vbox.open{
-    background-image:radial-gradient(135% 135% at 18% 20%, var(--mc0) 0%, rgba(255,255,255,0) 72%),radial-gradient(135% 135% at 82% 26%, var(--mc1) 0%, rgba(255,255,255,0) 72%),radial-gradient(140% 140% at 52% 82%, var(--mc2) 0%, rgba(255,255,255,0) 74%)!important;
-    background-color:var(--mcb)!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
-  }
-  /* project player text: white/gray close/title/description */
-  #vbox-close{color:rgba(255,255,255,.7)!important;}
-  #vbox-meta{color:rgba(235,235,240,.85)!important;}
-  #vbox-desc{color:rgba(235,235,240,.82)!important;}
-  #vbox-desc-more{color:rgba(255,255,255,.65)!important;}
+  /* project player text: gray close/title/description */
+  #vbox-close{color:#9a9a9a!important;}
+  #vbox-meta{color:#9a9a9a!important;}
+  #vbox-desc{color:#9a9a9a!important;}
+  #vbox-desc-more{color:#9a9a9a!important;}
 }
 #pbox.open{display:flex;}
 #pbox img{max-width:92vw;max-height:92vh;object-fit:contain;display:block;}
@@ -578,7 +571,7 @@ body.vplaying *{cursor:auto!important;}
 
 <div class="toast" id="toast">saved</div>
 
-<div id="mesh" class=""><div class="mesh-g" style="opacity: 0; background-image: radial-gradient(58% 58% at 84% 9%, rgb(122, 123, 60) 0%, rgba(122, 123, 60, 0) 66%), radial-gradient(58% 58% at 0% 3%, rgb(104, 144, 143) 0%, rgba(104, 144, 143, 0) 66%), radial-gradient(58% 58% at 15% 87%, rgb(169, 45, 64) 0%, rgba(169, 45, 64, 0) 66%);"></div><div class="mesh-g" style="background-image: radial-gradient(58% 58% at 19% 24%, rgb(121, 91, 6) 0%, rgba(121, 91, 6, 0) 66%), radial-gradient(58% 58% at 79% 25%, rgb(117, 63, 0) 0%, rgba(117, 63, 0, 0) 66%), radial-gradient(58% 58% at 72% 74%, rgb(36, 42, 34) 0%, rgba(36, 42, 34, 0) 66%), radial-gradient(58% 58% at 0% 100%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 66%); opacity: 1;"></div><div class="mesh-grain"></div><div class="mesh-spk"></div><div class="mesh-vig"></div></div>
+<div id="mesh" class="on"><div class="mesh-g" style="opacity: 0; background-image: radial-gradient(58% 58% at 18% 22%, rgb(97, 80, 35) 0%, rgba(97, 80, 35, 0) 66%), radial-gradient(58% 58% at 80% 20%, rgb(31, 48, 73) 0%, rgba(31, 48, 73, 0) 66%), radial-gradient(58% 58% at 72% 74%, rgb(98, 71, 51) 0%, rgba(98, 71, 51, 0) 66%), radial-gradient(58% 58% at 11% 86%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 66%);"></div><div class="mesh-g" style="background-image: radial-gradient(58% 58% at 18% 22%, rgb(54, 100, 113) 0%, rgba(54, 100, 113, 0) 66%), radial-gradient(58% 58% at 80% 20%, rgb(11, 10, 13) 0%, rgba(11, 10, 13, 0) 66%), radial-gradient(58% 58% at 72% 74%, rgb(66, 35, 0) 0%, rgba(66, 35, 0, 0) 66%), radial-gradient(58% 58% at 45% 0%, rgb(92, 40, 40) 0%, rgba(92, 40, 40, 0) 66%), radial-gradient(58% 58% at 12% 79%, rgb(18, 18, 18) 0%, rgba(18, 18, 18, 0) 66%); opacity: 1;"></div><div class="mesh-grain"></div><div class="mesh-spk"></div><div class="mesh-vig"></div></div>
 <div id="cursor" class="big"><i class="rim"></i></div>
 <div id="stills-legend"></div>
 <div id="collage"><button id="collage-close" onclick="closeCollage()">close ✕</button><div id="collage-title"></div><div id="collage-grid"></div></div>
@@ -1154,26 +1147,24 @@ function openVbox(i){
   var _pcols=(P[i]&&P[i].grad&&P[i].grad.length)?P[i].grad:BRAND_GRAD;
   var _isMobV=window.matchMedia&&window.matchMedia('(max-width:768px)').matches;
   if(_isMobV){
-    /* mobile project page: lock the ROOT gradient to THIS project's own colours (same @property
-       technique as the grid, so it bleeds into the iOS safe areas = no box). It does NOT change
-       while the player is open (pick() is paused). Page can't scroll, so the gradient is static. */
+    /* mobile project page: lock the ROOT gradient to THIS project's colours and keep the page
+       SCROLLABLE exactly like the home grid, so attachment:fixed bleeds into the iOS safe areas
+       (infinite, no bars). The player (#vbox) stays fully transparent, so this one gradient shows
+       behind it everywhere. pick() is paused while open, so the colours don't change on scroll. */
     try{var _de=document.documentElement;var g=_pcols;
       var c0=(g[0]&&(g[0].c||g[0]))||'#888888';
       var c1=(g[1]&&(g[1].c||g[1]))||c0;
       var c2=(g[2]&&(g[2].c||g[2]))||c1;
-      var a=_avgCol(g);
+      var aa=_avgCol(g);
       if((_de.style.backgroundImage||'').indexOf('--mc0')<0){
         _de.style.backgroundImage='radial-gradient(135% 135% at 18% 20%, var(--mc0) 0%, rgba(255,255,255,0) 72%),radial-gradient(135% 135% at 82% 26%, var(--mc1) 0%, rgba(255,255,255,0) 72%),radial-gradient(140% 140% at 52% 82%, var(--mc2) 0%, rgba(255,255,255,0) 74%)';
         _de.style.backgroundRepeat='no-repeat';_de.style.backgroundSize='cover';_de.style.backgroundAttachment='fixed';_de.style.backgroundPosition='center';
       }
-      _de.style.transition='--mc0 .7s ease, --mc1 .7s ease, --mc2 .7s ease, --mcb .7s ease';
+      _de.style.transition='--mc0 .35s linear, --mc1 .35s linear, --mc2 .35s linear, --mcb .35s linear';
       _de.style.setProperty('--mc0',c0);_de.style.setProperty('--mc1',c1);_de.style.setProperty('--mc2',c2);
-      _de.style.setProperty('--mcb','rgb('+Math.round(a[0])+','+Math.round(a[1])+','+Math.round(a[2])+')');
+      _de.style.setProperty('--mcb','rgb('+Math.round(aa[0])+','+Math.round(aa[1])+','+Math.round(aa[2])+')');
       _de.style.backgroundColor='var(--mcb)';
       _de._mbKey='proj';_de._mbProj=-3;document.body.style.backgroundColor='transparent';
-      /* Keep the page SCROLLABLE exactly like the home grid (no overflow:hidden) — iOS only bleeds
-         attachment:fixed into the safe areas while the page can scroll, so locking scroll turns the
-         top & bottom white. The fixed player covers the content, so scrolling behind it isn't seen. */
       _de.style.overflow='';document.body.style.overflow='';
       var _mm=document.getElementById('mesh');if(_mm){_mm.style.opacity='0';_mm.classList.remove('on');}}catch(e){}
   } else {
